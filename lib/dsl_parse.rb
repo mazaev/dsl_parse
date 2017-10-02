@@ -1,5 +1,6 @@
 require "dsl_parse/version"
+require "dsl_parse/polygon"
 
-module DslParse
+module DSLParse
   # Your code goes here...
 end
