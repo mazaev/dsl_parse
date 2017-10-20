@@ -2,14 +2,15 @@ require "spec_helper"
 
 RSpec.describe DSLParse::Tag do
 
-  let ( :tag_accent_open ) { DSLParse::Tag.new( "[']", 0 ) }
-  let ( :tag_asterisk_close ) { DSLParse::Tag.new( "[/*]", 0 ) }
-  let ( :tag_m1_open ) { DSLParse::Tag.new( "[m1]", 0 ) }
-  let ( :tag_c_red_open ) { DSLParse::Tag.new( "[c red]", 0 ) }
-  let ( :tag_lang_latin_open ) { DSLParse::Tag.new( "[lang id=Latin]", 0 ) }
-  let ( :tag_link_open ) { DSLParse::Tag.new( "[ref dict=\"LingvoGrammar (En-Ru)\"]", 0 ) }
+  let ( :tag_accent_open ) { DSLParse::Tag.new( %q{'}, 0 ) }
+  let ( :tag_asterisk_close ) { DSLParse::Tag.new( %q{/*}, 0 ) }
+  let ( :tag_m1_open ) { DSLParse::Tag.new( %q{m1}, 0 ) }
+  let ( :tag_m_close ) { DSLParse::Tag.new( %q{/m}, 0 ) }
+  let ( :tag_c_red_open ) { DSLParse::Tag.new( %q{c red}, 0 ) }
+  let ( :tag_lang_latin_open ) { DSLParse::Tag.new( %q{lang id=Latin}, 0 ) }
+  let ( :tag_link_open ) { DSLParse::Tag.new( %q{ref dict="LingvoGrammar (En-Ru)"}, 0 ) }
 
-  describe "check for '[']', position: 0" do
+  describe "check for ''', position: 0" do
     it "#name: ':accent'" do
       expect( tag_accent_open.name ).to eq :accent
     end
@@ -21,7 +22,7 @@ RSpec.describe DSLParse::Tag do
     end
   end
 
-  describe "check for '[/*]', position: 0" do
+  describe "check for '/*', position: 0" do
     it "#name: ':asterisk'" do
       expect( tag_asterisk_close.name ).to eq :asterisk
     end
@@ -33,7 +34,7 @@ RSpec.describe DSLParse::Tag do
     end
   end
 
-  describe "check for '[c red]', position: 0" do
+  describe "check for 'c red', position: 0" do
     it "#name: ':color'" do
       expect( tag_c_red_open.name ).to eq :color
     end
@@ -45,7 +46,7 @@ RSpec.describe DSLParse::Tag do
     end
   end
 
-  describe "check for '[m1]', position: 0" do
+  describe "check for 'm1', position: 0" do
     it "#name: ':margin'" do
       expect( tag_m1_open.name ).to eq :margin
     end
@@ -57,7 +58,19 @@ RSpec.describe DSLParse::Tag do
     end
   end
 
-  describe "check for '[lang id=Latin]', position: 0" do
+  describe "check for '/m', position: 0" do
+    it "#name: ':margin'" do
+      expect( tag_m_close.name ).to eq :margin
+    end
+    it "#status: ':close'" do
+      expect( tag_m_close.status ).to eq :close
+    end
+    it "#position: 0" do
+      expect( tag_m_close.position ).to eq 0
+    end
+  end
+
+  describe "check for 'lang id=Latin', position: 0" do
     it "#name: ':lang'" do
       expect( tag_lang_latin_open.name ).to eq :lang
     end
@@ -69,7 +82,7 @@ RSpec.describe DSLParse::Tag do
     end
   end
 
-  describe "check for '[ref dict=\"LingvoGrammar (En-Ru)\"]', position: 0" do
+  describe "check for 'ref dict=\"LingvoGrammar (En-Ru)\"', position: 0" do
     it "#name: ':link'" do
       expect( tag_link_open.name ).to eq :link
     end
